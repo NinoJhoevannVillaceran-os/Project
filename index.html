@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio – multi‑page demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0e1c27;
+      font-family: 'Inter', sans-serif;
+      color: #e3eef6;
+      line-height: 1.5;
+    }
+    h1, h2, h3, .logo, .nav-links a {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    header {
+      padding: 2rem 0 1rem;
+      background-color: transparent;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #d1e3f0;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #ffffff;
+      border-bottom-color: #56b3fa;
+    }
+
+    .page {
+      display: none;
+      padding: 1rem 0 4rem;
+    }
+    .page.active-page {
+      display: block;
+    }
+
+    .hero-grid {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+    .hero-content {
+      flex: 1 1 350px;
+    }
+    .hero-supertitle {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #9bc3db;
+      margin-bottom: 1rem;
+    }
+    .hero-content h1 {
+      font-size: 3.8rem;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+    .hero-content h1 strong {
+      font-weight: 600;
+      background: linear-gradient(130deg, #f0f9ff, #b2d9f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.5rem;
+      color: #c9deee;
+      margin-bottom: 1.8rem;
+    }
+    .hero-description {
+      font-size: 1.2rem;
+      color: #b6d2e8;
+      max-width: 550px;
+      margin-bottom: 2.5rem;
+      border-left: 4px solid #56b3fa;
+      padding-left: 1.5rem;
+    }
+    .hero-visual {
+      flex: 0 0 260px;
+      text-align: center;
+    }
+
+    .shape-box {
+      background: transparent;
+      border-radius: 50%;
+      padding: 0;
+      box-shadow: 0 30px 45px -15px #030b11;
+      border: 2px solid #2e5777;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .shape-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+      color: #ffffff;
+      border-left: 6px solid #56b3fa;
+      padding-left: 1.5rem;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 800px;
+    }
+    .about-text {
+      font-size: 1.2rem;
+      color: #c9deee;
+      background: rgba(0,0,0,0.15);
+      padding: 2rem;
+      border-radius: 32px;
+      border: 1px solid #2c4d68;
+    }
+    .about-text p {
+      margin-bottom: 1.2rem;
+    }
+    .social-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 2rem;
+    }
+    .social-links a {
+      color: #9bc3db;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .social-links a:hover {
+      color: #56b3fa;
+      transform: scale(1.2);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: #142b3b;
+      border-radius: 28px;
+      padding: 2rem 1.8rem;
+      border: 1px solid #2c4d68;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: #56b3fa;
+      box-shadow: 0 20px 25px -8px #56b3fa20;
+    }
+    .project-icon {
+      font-size: 2.5rem;
+      color: #56b3fa;
+      margin-bottom: 1rem;
+    }
+    .project-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+    .project-card p {
+      color: #bdd3e8;
+      margin: 1rem 0 1.2rem;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tag {
+      background: #1f405a;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #cde1f0;
+    }
+
+    .contact-form {
+      background: #102634;
+      border-radius: 40px;
+      padding: 3rem;
+      border: 1px solid #2e5777;
+      max-width: 700px;
+    }
+    .form-row {
+      margin-bottom: 1.8rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 1px solid #2c4d68;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      background: #1e384b;
+      color: #eaf2f9;
+      transition: 0.2s;
+    }
+    textarea {
+      border-radius: 30px;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #56b3fa;
+      background: #1d3d55;
+      box-shadow: 0 0 0 4px #56b3fa30;
+    }
+    .submit-btn {
+      background: #56b3fa;
+      border: none;
+      padding: 1rem 2.8rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #0e1c27;
+      border: 1px solid #56b3fa;
+    }
+    .submit-btn:hover {
+      background: #7ac4ff;
+    }
+    .toast-msg {
+      margin-top: 1rem;
+      color: #90d26d;
+      font-weight: 500;
+    }
+    footer {
+      padding: 2.5rem 0;
+      border-top: 1px solid #1d3f57;
+      text-align: center;
+      color: #86aecb;
+    }
+    .hidden-cv {
+      display: none;
+    }
+    @media (max-width: 700px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links {
+        gap: 1.2rem;
+      }
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">Nino Jhoevann A. Villaceran</div>
+      <nav class="nav-links">
+        <a class="nav-link active" data-page="home">HOME</a>
+        <a class="nav-link" data-page="about">ABOUT ME</a>
+        <a class="nav-link" data-page="projects">PROJECTS</a>
+        <a class="nav-link" data-page="contact">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <div id="home" class="page active-page">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-supertitle">Portfolio</div>
+          <h1>Nino Jhoevann A. Villaceran</h1>
+          <div class="hero-tagline">Front-End Developer & UI Designer</div>
+          <p class="hero-description">
+            Front-end developer focused on creating Web and Mobile applications. I really like different projects that solve real problems.
+          </p>
+        </div>
+        <div class="hero-visual">
+          <div class="shape-box">
+            <img src="culot.jpg" alt="Culot">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class="page">
+      <div class="container">
+        <h2 class="section-title">ABOUT ME</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>I'm Nino Jhoevann A. Villaceran, front-end developer based in Iskena Japan. I've been crafting digital experiences for 6+ years, working with startups and design studios.</p>
+            <p>I love solving real problems with clean code and thoughtful interfaces. Outside of coding, I'm into photography, vinyl records, and playing futebol.</p>
+            <p><strong>Tools I use daily:</strong> React, Vue, Tailwind, Framer, and Figma.</p>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://dribbble.com" target="_blank" aria-label="Dribbble"><i class="fa-brands fa-dribbble"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="projects" class="page">
+      <div class="container">
+        <h2 class="section-title">PROJECTS</h2>
+        <div class="project-grid">
+          <a href="#" class="project-card" target="_blank">
+            <div class="project-icon"><i class="fa-regular fa-compass"></i></div>
+            <h3>Eco tracker</h3>
+            <p>Carbon footprint calculator PWA – used by 2k+ monthly.</p>
+            <div class="project-tags"><span class="tag">React</span><span class="tag">PWA</span></div>
+          </a>
+          <a href="#" class="project-card" target="_blank">
+            <div class="project-icon"><i class="fa-regular fa-chart-line"></i></div>
+            <h3>My Dash</h3>
+            <p>Analytics dashboard for small biz, dark mode + widgets.</p>
+            <div class="project-tags"><span class="tag">Vue</span><span class="tag">D3</span></div>
+          </a>
+          <a href="#" class="project-card" target="_blank">
+            <div class="project-icon"><i class="fa-regular fa-image"></i></div>
+            <h3>Portfolio 2025</h3>
+            <p>Modular portfolio template (this very design).</p>
+            <div class="project-tags"><span class="tag">HTML/CSS</span><span class="tag">JS</span></div>
+          </a>
+          <a href="#" class="project-card" target="_blank">
+            <div class="project-icon"><i class="fa-regular fa-bell"></i></div>
+            <h3>Alertify</h3>
+            <p>Notification component library with 12 themes.</p>
+            <div class="project-tags"><span class="tag">Lit</span><span class="tag">CSS</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="contact" class="page">
+      <div class="container">
+        <h2 class="section-title">CONTACT</h2>
+        <div class="contact-form">
+          <form id="demoContactForm">
+            <div class="form-row">
+              <input type="text" name="name" placeholder="your name *" required id="contactName">
+            </div>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="email address *" required id="contactEmail">
+            </div>
+            <div class="form-row">
+              <textarea rows="4" name="message" placeholder="tell me about your project..." id="contactMsg"></textarea>
+            </div>
+            <div class="form-row">
+              <button type="submit" class="submit-btn"><i class="fa-regular fa-paper-plane"></i> send message</button>
+            </div>
+            <div id="formFeedback" class="toast-msg"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Nino Jhoevann A. Villaceran — all links functional · based on original design</p>
+    </div>
+  </footer>
+
+  <a id="hiddenDownloader" class="hidden-cv" href="data:application/octet-stream,THIAGO%20LEÃO%20CV%0A----------------%0AFront-end%20Developer%20with%206%2B%20years%20experience%0A%0ASkills%3A%20React%2C%20Vue%2C%20UI%2C%20Responsive%20Design%0A" download="Thiago_Leao_CV.txt"></a>
+
+  <script>
+    (function() {
+
+      const pages = document.querySelectorAll('.page');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      function showPage(pageId) {
+
+        pages.forEach(page => page.classList.remove('active-page'));
+
+        const activePage = document.getElementById(pageId);
+        if (activePage) activePage.classList.add('active-page');
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('data-page') === pageId) {
+            link.classList.add('active');
+          }
+        });
+
+        window.location.hash = pageId;
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const pageId = link.getAttribute('data-page');
+          showPage(pageId);
+        });
+      });
+
+      const initialHash = window.location.hash.substring(1); // remove '#'
+      if (initialHash && ['home','about','projects','contact'].includes(initialHash)) {
+        showPage(initialHash);
+      } else {
+
+        showPage('home');
+      }
+
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && ['home','about','projects','contact'].includes(hash)) {
+          showPage(hash);
+        } else {
+          showPage('home');
+        }
+      });
+
+      const form = document.getElementById('demoContactForm');
+      if (form) {
+        const feedbackDiv = document.getElementById('formFeedback');
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('contactName').value.trim();
+          const email = document.getElementById('contactEmail').value.trim();
+          const msg = document.getElementById('contactMsg').value.trim();
+
+          if (!name || !email || !msg) {
+            feedbackDiv.textContent = '⚠️ please fill all fields.';
+            feedbackDiv.style.color = '#f7b731';
+            return;
+          }
+          if (!email.includes('@') || !email.includes('.')) {
+            feedbackDiv.textContent = '⚠️ enter a valid email.';
+            feedbackDiv.style.color = '#f7b731';
+            return;
+          }
+          feedbackDiv.innerHTML = '✅ demo: message sent (no data stored). Thanks!';
+          feedbackDiv.style.color = '#90d26d';
+          form.reset();
+        });
+      }
+      
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.open('https://example.com', '_blank');
+        });
+      });
+      const downloadBtn = document.getElementById('downloadCvBtn');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.getElementById('hiddenDownloader').click();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
